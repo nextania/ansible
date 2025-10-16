@@ -1,0 +1,6 @@
+collections:
+  - name: trfore.smallstep
+roles:
+  - name: mailcow
+    src: https://github.com/mailcow/mailcow-ansiblerole.git
+    version: master

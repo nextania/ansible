@@ -1,0 +1,18 @@
+common_default_dir: "/opt/compose-stacks"
+common_skip_root: true
+common_email_domain: "nextania.com"
+common_default_groups:
+  - "sudo"
+  - "compose-stacks"
+common_zshrc_file: ".zshrc"
+common_base_dir: /opt/compose-stacks
+common_group_name: compose-stacks
+common_groups:
+  - "sudo"
+  - "compose-stacks"
+  - "docker"
+common_subdirs:
+  - services
+  - applications
+  - storage
+  - projects

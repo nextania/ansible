@@ -1,0 +1,17 @@
+- name: Set timezone
+  community.general.timezone:
+    name: America/Toronto
+  # ansible.builtin.shell: timedatectl set-timezone America/Toronto
+- name: Make sure timesyncd is stopped
+  ansible.builtin.systemd:
+    name: systemd-timesyncd.service
+    state: stopped
+- name: Copy over the timesyncd config
+  ansible.builtin.copy:
+    src: timesyncd.conf
+    dest: /etc/systemd/timesyncd.conf
+    mode: "0644"
+- name: Make sure timesyncd is started
+  ansible.builtin.systemd:
+    name: systemd-timesyncd.service
+    state: started

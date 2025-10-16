@@ -1,0 +1,8 @@
+- name: Add groups
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - sudo
+    - compose-stacks
+    - docker

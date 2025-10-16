@@ -1,0 +1,9 @@
+- name: Create temp directory for installers
+  ansible.builtin.file:
+    path: "{{ common_temp_dir }}"
+    state: directory
+    mode: "0755"
+- name: Install needed packages
+  ansible.builtin.package:
+    name: "{{ common_packages }}"
+    state: present

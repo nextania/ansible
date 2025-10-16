@@ -1,0 +1,35 @@
+- name: Deploy custom ZSH theme
+  ansible.builtin.copy:
+    src: "{{ common_zshrc_file }}"
+    dest: "/home/{{ item.user }}/.zshrc"
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
+    mode: "0644"
+  loop: "{{ common_users }}"
+- name: Ensure /etc/zsh directory exists
+  ansible.builtin.file:
+    path: /etc/zsh
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+- name: Configure /etc/zsh/zprofile for default cd
+  ansible.builtin.blockinfile:
+    path: /etc/zsh/zprofile
+    create: true
+    owner: root
+    group: root
+    mode: '0644'
+    block: |
+      # Automatically cd to default directory for interactive zsh login shells
+      [[ -o interactive ]] || return
+
+      {% if common_skip_root %}
+      [[ "$USER" = "root" ]] && return
+      {% endif %}
+
+      # Only apply on SSH or console logins
+      if [[ -n "$SSH_CONNECTION" || -n "$SSH_TTY" ]]; then
+          cd {{ common_default_dir }}
+      fi
+  notify: Restart ssh

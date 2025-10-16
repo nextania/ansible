@@ -1,0 +1,8 @@
+- name: Ensure AuthorizedPrincipalsFile is set in sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?AuthorizedPrincipalsFile'
+    line: 'AuthorizedPrincipalsFile /etc/ssh/authorized_principals/%u'
+    insertafter: EOF
+    state: present
+    backup: true

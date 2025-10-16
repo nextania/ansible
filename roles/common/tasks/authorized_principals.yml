@@ -1,0 +1,19 @@
+- name: Ensure authorized_principals directory exists
+  ansible.builtin.file:
+    path: "{{ common_principals_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+- name: Create authorized_principals file for each user that is publicly accessible
+  ansible.builtin.copy:
+    dest: "{{ common_principals_dir }}/{{ item.user }}"
+    content: |
+      {% if item.notPubliclyAccessible is defined and item.notPubliclyAccessible %}
+      {% else %}
+      {{ item.user }}@{{ common_email_domain }}
+      {% endif %}
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ common_users }}"

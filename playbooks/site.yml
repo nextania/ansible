@@ -1,0 +1,11 @@
+- name: Configure all infrastructure
+  hosts: all
+  become: true
+  roles:
+    - common
+    - ssh
+# - name: Deploy Mailcow on mail servers
+#   hosts: mailservers
+#   become: true
+#   roles:
+#     - mail

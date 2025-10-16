@@ -1,0 +1,5 @@
+- name: Install Step CLI on all hosts
+  ansible.builtin.include_role:
+    name: trfore.smallstep.step_cli
+  vars:
+    step_cli_version: "{{ ssh_step_cli_version }}"

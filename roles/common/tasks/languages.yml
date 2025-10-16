@@ -1,0 +1,71 @@
+- name: Ensure Python is installed
+  ansible.builtin.package:
+    name: "{{ common_python_packages }}"
+    state: present
+- name: Download Rust installer script
+  ansible.builtin.get_url:
+    url: "{{ common_rust_installer }}"
+    dest: "{{ common_temp_dir }}/rustup-init.sh"
+    mode: "0755"
+    force: true
+    validate_certs: true
+- name: Download Bun installer script
+  ansible.builtin.get_url:
+    url: "{{ common_bun_installer }}"
+    dest: "{{ common_temp_dir }}/bun-install.sh"
+    mode: "0755"
+    force: true
+    validate_certs: true
+- name: Ensure Rust/Bun directories exist
+  ansible.builtin.file:
+    path: "/home/{{ item.0.user }}/{{ item.1 }}"
+    state: directory
+    owner: "{{ item.0.user }}"
+    group: "{{ item.0.user }}"
+    mode: "0755"
+  loop: "{{ query('cartesian', common_users, ['.cargo', '.rustup', '.bun']) }}"
+  loop_control:
+    label: "{{ item.0.user }}:{{ item.1 }}"
+- name: Check if Rust is installed per user
+  ansible.builtin.stat:
+    path: "/home/{{ item.user }}/.cargo/bin/rustc"
+  register: rust_status
+  loop: "{{ common_users }}"
+  loop_control:
+    label: "{{ item.user }}"
+- name: Install Rust for users if missing
+  ansible.builtin.shell:
+    cmd: "{{ common_temp_dir }}/rustup-init.sh -y --no-modify-path"
+    chdir: "{{ common_temp_dir }}"
+    creates: "/home/{{ item.0.user }}/.cargo/bin/rustc"
+    executable: /bin/bash
+  loop: "{{ common_users | zip(rust_status.results) | list }}"
+  loop_control:
+    label: "{{ item.0.user }}"
+  when: not item.1.stat.exists
+  environment:
+    CARGO_HOME: "/home/{{ item.0.user }}/.cargo"
+    RUSTUP_HOME: "/home/{{ item.0.user }}/.rustup"
+    HOME: "/home/{{ item.0.user }}"
+    USER: "{{ item.0.user }}"
+- name: Check if Bun is installed per user
+  ansible.builtin.stat:
+    path: "/home/{{ item.user }}/.bun/bin/bun"
+  register: bun_status
+  loop: "{{ common_users }}"
+  loop_control:
+    label: "{{ item.user }}"
+- name: Install Bun for users if missing
+  ansible.builtin.shell:
+    cmd: "bash {{ common_temp_dir }}/bun-install.sh"
+    chdir: "{{ common_temp_dir }}"
+    creates: "/home/{{ item.0.user }}/.bun/bin/bun"
+    executable: /bin/bash
+  loop: "{{ common_users | zip(bun_status.results) | list }}"
+  loop_control:
+    label: "{{ item.0.user }}"
+  when: not item.1.stat.exists
+  environment:
+    BUN_INSTALL: "/home/{{ item.0.user }}/.bun"
+    HOME: "/home/{{ item.0.user }}"
+    USER: "{{ item.0.user }}"

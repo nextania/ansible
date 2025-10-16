@@ -1,0 +1,7 @@
+- name: Configure SSH with Step CA
+  ansible.builtin.include_role:
+    name: trfore.smallstep.step_ssh
+  vars:
+    step_ssh_principal_0: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    step_ssh_provisioner: "{{ ssh_step_ssh_provisioner }}"
+    step_ssh_provisioner_password: "{{ ssh_step_ssh_provisioner_password }}"

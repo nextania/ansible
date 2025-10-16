@@ -1,0 +1,6 @@
+- name: Install CA Root Certificate
+  ansible.builtin.include_role:
+    name: trfore.smallstep.step_ca_cert
+  vars:
+    step_ca_url: "{{ ssh_step_ca_url_global }}"
+    step_ca_fingerprint: "{{ ssh_step_ca_fingerprint_global }}"

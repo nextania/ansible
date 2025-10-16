@@ -1,0 +1,12 @@
+- name: Load secure variables for this role
+  ansible.builtin.include_vars: secrets.yml
+- name: Install Step CLI
+  ansible.builtin.import_tasks: install_step_cli.yml
+- name: Bootstrap Step CA Root Certificate
+  ansible.builtin.import_tasks: bootstrap_ca.yml
+- name: Configure SSH with Step CA
+  ansible.builtin.import_tasks: configure_ssh.yml
+- name: Modify sshd_config file
+  ansible.builtin.import_tasks: modify_sshd_config.yml
+- name: Restart SSHD service
+  ansible.builtin.import_tasks: restart_ssh.yml

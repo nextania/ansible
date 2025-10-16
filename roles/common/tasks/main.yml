@@ -1,0 +1,20 @@
+- name: Load secure variables for this role
+  ansible.builtin.include_vars: secrets.yml
+- name: Install dependencies
+  ansible.builtin.import_tasks: dependencies.yml
+- name: Add groups
+  ansible.builtin.import_tasks: groups.yml
+- name: Add users
+  ansible.builtin.import_tasks: users.yml
+- name: Deploy ZSH Theme
+  ansible.builtin.import_tasks: zsh.yml
+- name: Install languages
+  ansible.builtin.import_tasks: languages.yml
+- name: Add authorized_principals
+  ansible.builtin.import_tasks: authorized_principals.yml
+- name: Configure compose-stacks
+  ansible.builtin.import_tasks: compose-stacks.yml
+- name: Install Docker
+  ansible.builtin.import_tasks: docker.yml
+- name: Configure timezones
+  ansible.builtin.import_tasks: timezone.yml

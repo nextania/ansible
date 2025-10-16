@@ -1,0 +1,10 @@
+- name: Add Users
+  ansible.builtin.user:
+    name: "{{ item.user }}"
+    password: "{{ item.passwordHashed }}"
+    home: "/home/{{ item.user }}"
+    shell: /usr/bin/zsh
+    groups: "{{ item.groups if item.groups is defined else common_default_groups }}"
+    append: true
+    state: present
+  loop: "{{ common_users }}"
