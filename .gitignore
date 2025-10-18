@@ -2,3 +2,4 @@
 .vscode/
 roles/mailcow/
 inventory/hosts.private.yml
+**/secrets.yml
