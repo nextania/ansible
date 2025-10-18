@@ -5,6 +5,7 @@ common_rust_installer: https://sh.rustup.rs
 common_bun_installer: https://bun.com/install
 common_temp_dir: "/tmp/ansible_installers"
 common_principals_dir: /etc/ssh/authorized_principals
+common_stepca_users_group: stepca_users
 common_packages:
   - zsh
   - neofetch
@@ -29,6 +30,8 @@ common_docker_install:
 # common_users:
 #   - user: 'example'
 #     passwordHashed: "passwordHashed"
-#     notPubliclyAccessible: true or false (optional)
+#     localUser: true or false (optional and defaults to false)
+#     mandatePasswordChange: true or false (optional and defaults to true)
+#     notPubliclyAccessible: true or false (optional and defaults to false)
 #     groups: (optional)
 #       - list of items
