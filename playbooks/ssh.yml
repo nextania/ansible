@@ -1,0 +1,5 @@
+- name: Deploy SSH on ssh servers
+  hosts: all
+  become: true
+  roles:
+    - ssh

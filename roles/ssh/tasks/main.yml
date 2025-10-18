@@ -6,6 +6,8 @@
   ansible.builtin.import_tasks: bootstrap_ca.yml
 - name: Configure SSH with Step CA
   ansible.builtin.import_tasks: configure_ssh.yml
+- name: Harden Sudo for Step CA Clients
+  ansible.builtin.import_tasks: harden_sudo.yml
 - name: Modify sshd_config file
   ansible.builtin.import_tasks: modify_sshd_config.yml
 - name: Restart SSHD service

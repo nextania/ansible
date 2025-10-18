@@ -11,6 +11,7 @@ common_groups:
   - "sudo"
   - "compose-stacks"
   - "docker"
+  - "stepca_users"
 common_subdirs:
   - services
   - applications

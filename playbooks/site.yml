@@ -4,8 +4,8 @@
   roles:
     - common
     - ssh
-# - name: Deploy Mailcow on mail servers
-#   hosts: mailservers
-#   become: true
-#   roles:
-#     - mail
+- name: Deploy Mailcow on mail servers
+  hosts: mailservers
+  become: true
+  roles:
+    - mail

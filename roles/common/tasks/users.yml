@@ -8,3 +8,16 @@
     append: true
     state: present
   loop: "{{ common_users }}"
+- name: Ensure local users are not in the stepca_users group
+  ansible.builtin.user:
+    name: "{{ item.user }}"
+    groups: "{{ item.groups | default([]) | difference([common_stepca_users_group]) }}"
+    append: false
+  when: item.localUser | default(false)
+  loop: "{{ common_users }}"
+- name: Force password change on first login (if mandated)
+  ansible.builtin.command:
+    cmd: chage -d 0 "{{ item.user }}"
+  when: "item.mandatePasswordChange | default(true)"
+  loop: "{{ common_users }}"
+  changed_when: true

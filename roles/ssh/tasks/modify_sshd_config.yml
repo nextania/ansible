@@ -6,3 +6,14 @@
     insertafter: EOF
     state: present
     backup: true
+    validate: '/usr/sbin/sshd -t -f %s'
+- name: Ensure Step CA / OIDC SSH Certificate configuration block
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config
+    create: false
+    block: |
+      PermitRootLogin no
+
+      # Optional: Disallow password auth for SSO group
+      Match Group {{ ssh_stepca_group }}
+          PasswordAuthentication no
