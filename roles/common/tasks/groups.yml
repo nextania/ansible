@@ -6,3 +6,4 @@
     - sudo
     - compose-stacks
     - docker
+    - stepca_users

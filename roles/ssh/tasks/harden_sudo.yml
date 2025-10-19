@@ -6,7 +6,7 @@
     mode: '0440'
     content: |
       # Step CA users get passwordless sudo
-      %{{ ssh_stepca_group }} ALL(ALL) NOPASSWD:ALL
+      %{{ ssh_stepca_group }} ALL=(ALL) NOPASSWD:ALL
     validate: '/usr/sbin/visudo -cf %s'
 - name: Ensure stepca_users group exists
   ansible.builtin.group:

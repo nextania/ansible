@@ -4,6 +4,7 @@ common_email_domain: "nextania.com"
 common_default_groups:
   - "sudo"
   - "compose-stacks"
+  - "stepca_users"
 common_zshrc_file: ".zshrc"
 common_base_dir: /opt/compose-stacks
 common_group_name: compose-stacks
